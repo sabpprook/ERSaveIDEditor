@@ -205,7 +205,7 @@ namespace ERSaveIDEditor
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://github.com/sabpprook");
+            Process.Start("https://github.com/sabpprook/ERSaveIDEditor");
         }
     }
 }

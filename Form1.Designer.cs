@@ -292,12 +292,12 @@
             this.linkLabel1.ActiveLinkColor = System.Drawing.Color.DeepSkyBlue;
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.LinkColor = System.Drawing.Color.DeepSkyBlue;
-            this.linkLabel1.Location = new System.Drawing.Point(718, 372);
+            this.linkLabel1.Location = new System.Drawing.Point(613, 372);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(154, 19);
+            this.linkLabel1.Size = new System.Drawing.Size(259, 19);
             this.linkLabel1.TabIndex = 20;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "github.com/sabpprook";
+            this.linkLabel1.Text = "github.com/sabpprook/ERSaveIDEditor";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // radioBtn_English
