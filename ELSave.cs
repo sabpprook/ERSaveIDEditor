@@ -27,21 +27,21 @@ namespace ERSaveIDEditor
 
         private readonly ulong temp_steamid = 88888888888888888;
 
-        private byte[] buffer { get; set; }
+        private byte[] saveData { get; set; }
 
         public ELSave(string file)
         {
-            buffer = File.ReadAllBytes(file);
+            saveData = File.ReadAllBytes(file);
         }
 
         public void Save(string file)
         {
-            File.WriteAllBytes(file, buffer);
+            File.WriteAllBytes(file, saveData);
         }
 
         public UInt64 GetSteamID64()
         {
-            return BitConverter.ToUInt64(buffer, steamid_offset);
+            return BitConverter.ToUInt64(saveData, steamid_offset);
         }
 
         public void SetSteamID64(UInt64 steamid64)
@@ -49,7 +49,7 @@ namespace ERSaveIDEditor
             var data = BitConverter.GetBytes(steamid64);
             foreach (var offset in GetSteamID64Offsets())
             {
-                Buffer.BlockCopy(data, 0, buffer, (int)offset, data.Length);
+                Buffer.BlockCopy(data, 0, saveData, (int)offset, data.Length);
             }
             ComputeHash();
         }
@@ -57,9 +57,9 @@ namespace ERSaveIDEditor
         public (string name, string lvl, string time) GetSlotDesc(int slotIndex)
         {
             var offset = char_desc_offset + (slotIndex * char_desc_length);
-            var name = Encoding.Unicode.GetString(buffer, offset + char_name_offset, char_name_length).Replace("\0", "");
-            var lvl = BitConverter.ToUInt32(buffer, offset + char_lvl_offset);
-            var time = BitConverter.ToUInt32(buffer, offset + char_time_offset);
+            var name = Encoding.Unicode.GetString(saveData, offset + char_name_offset, char_name_length).Replace("\0", "");
+            var lvl = BitConverter.ToUInt32(saveData, offset + char_lvl_offset);
+            var time = BitConverter.ToUInt32(saveData, offset + char_time_offset);
             var ts = TimeSpan.FromSeconds(time);
             if (string.IsNullOrEmpty(name))
                 return (null, null, null);
@@ -70,7 +70,7 @@ namespace ERSaveIDEditor
         {
             var data = new byte[save_length];
             var offset = slotIndex * save_length + header_length;
-            Buffer.BlockCopy(buffer, offset, data, 0, data.Length);
+            Buffer.BlockCopy(saveData, offset, data, 0, data.Length);
 
             var id = GetSteamID64();
             offset = 0;
@@ -90,18 +90,27 @@ namespace ERSaveIDEditor
             }
             if (offset > 0)
             {
-                var tmp_id = BitConverter.GetBytes(temp_steamid);
-                Buffer.BlockCopy(tmp_id, 0, data, offset, tmp_id.Length);
+                var buffer = BitConverter.GetBytes(temp_steamid);
+                Buffer.BlockCopy(buffer, 0, data, offset, buffer.Length);
             }
+
+            data = GZip.compress(data);
+
             return Convert.ToBase64String(data);
         }
 
-        public void SetSlotData(int slotIndex, string base64String)
+        public bool SetSlotData(int slotIndex, string base64String)
         {
             var data = Convert.FromBase64String(base64String);
+            
+            if (BitConverter.ToUInt16(data, 0) == 0x8B1F)
+                data = GZip.decompress(data);
+
+            if (data.Length != save_length)
+                return false;
 
             var id = GetSteamID64();
-            var offset = 0;
+            var offset = -1;
             using (var ms = new MemoryStream(data))
             using (var br = new BinaryReader(ms))
             {
@@ -116,14 +125,16 @@ namespace ERSaveIDEditor
                     br.BaseStream.Position -= 7;
                 }
             }
-            if (offset > 0)
-            {
-                var tmp_id = BitConverter.GetBytes(id);
-                Buffer.BlockCopy(tmp_id, 0, data, offset, tmp_id.Length);
-            }
+            if (offset < 0)
+                return false;
+
+            var buffer = BitConverter.GetBytes(id);
+            Buffer.BlockCopy(buffer, 0, data, offset, buffer.Length);
 
             offset = slotIndex * save_length + header_length;
-            Buffer.BlockCopy(data, 0, buffer, offset, data.Length);
+            Buffer.BlockCopy(data, 0, saveData, offset, data.Length);
+
+            return true;
         }
 
         private List<long> GetSteamID64Offsets()
@@ -135,7 +146,7 @@ namespace ERSaveIDEditor
             {
                 var data = new byte[save_length];
                 var offset = slotIndex * save_length + header_length;
-                Buffer.BlockCopy(buffer, offset, data, 0, data.Length);
+                Buffer.BlockCopy(saveData, offset, data, 0, data.Length);
                 using (var ms = new MemoryStream(data))
                 using (var br = new BinaryReader(ms))
                 {
@@ -157,17 +168,19 @@ namespace ERSaveIDEditor
         private void ComputeHash()
         {
             var data = new byte[footer_length - hash_length];
-            Buffer.BlockCopy(buffer, (footer_offset + hash_length), data, 0, data.Length);
+            Buffer.BlockCopy(saveData, (footer_offset + hash_length), data, 0, data.Length);
+
             var hash = MD5.Create().ComputeHash(data);
-            Buffer.BlockCopy(hash, 0, buffer, footer_offset, hash.Length);
+            Buffer.BlockCopy(hash, 0, saveData, footer_offset, hash.Length);
 
             for (int slotIndex = 0; slotIndex < save_count; slotIndex++)
             {
                 data = new byte[save_length - hash_length];
                 var offset = slotIndex * save_length + header_length;
-                Buffer.BlockCopy(buffer, (offset + hash_length), data, 0, data.Length);
+                Buffer.BlockCopy(saveData, (offset + hash_length), data, 0, data.Length);
+
                 hash = MD5.Create().ComputeHash(data);
-                Buffer.BlockCopy(hash, 0, buffer, offset, hash.Length);
+                Buffer.BlockCopy(hash, 0, saveData, offset, hash.Length);
             }
         }
     }

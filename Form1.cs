@@ -23,7 +23,9 @@ namespace ERSaveIDEditor
         UInt64 OrigSteamID { get; set; }
         UInt64 NewSteamID { get; set; }
         List<Button> ButtonSlot { get; set; }
-        Locale LocaleTable { get; set; }
+        Locale.ITranslate Locale { get; set; }
+        Locale.ITranslate EN  = new Locale.English();
+        Locale.ITranslate ZH  = new Locale.Chinese();
 
         public Form1()
         {
@@ -47,38 +49,39 @@ namespace ERSaveIDEditor
                 tb_SteamAccount.Text += line;
             }
 
-            LocaleTable = new English();
+            Locale = EN;
             ChangeText(radioBtn_English.Font);
         }
 
         private void radioBtn_English_CheckedChanged(object sender, EventArgs e)
         {
-            LocaleTable = new English();
+            Locale = EN;
             ChangeText(radioBtn_English.Font);
         }
 
         private void radioBtn_Chinese_CheckedChanged(object sender, EventArgs e)
         {
-            LocaleTable = new Chinese();
+            Locale = ZH;
             ChangeText(radioBtn_Chinese.Font);
         }
 
         private void ChangeText(Font font)
         {
-            this.Text = LocaleTable.Str_Title();
-            label1.Text = LocaleTable.Str_Save_File();
-            label2.Text = LocaleTable.Str_Current_ID();
-            label3.Text = LocaleTable.Str_New_ID();
-            btn_LoadFile.Text = LocaleTable.Str_Load();
-            btn_SaveFile.Text = LocaleTable.Str_Save();
-            linkLabel_ShowGuide.Text = LocaleTable.Str_Show_Guide();
+            this.Text = Locale.Str_Title;
+            label1.Text = Locale.Str_Save_File;
+            label2.Text = Locale.Str_Current_ID;
+            label3.Text = Locale.Str_New_ID;
+            btn_LoadFile.Text = Locale.Str_Load;
+            btn_SaveFile.Text = Locale.Str_Save;
+            linkLabel_ShowGuide.Text = Locale.Str_Show_Guide;
             label1.Font = label2.Font = label3.Font = linkLabel_ShowGuide.Font = font;
             btn_LoadFile.Font = btn_SaveFile.Font = font;
             foreach (var btn in ButtonSlot)
             {
                 var index = int.Parse(btn.Tag.ToString());
-                if (!btn.Enabled) btn.Text = LocaleTable.Str_Empty();
+                if (!btn.Enabled) btn.Text = Locale.Str_Empty;
             }
+            GC.Collect();
         }
 
         private void btn_LoadFile_Click(object sender, EventArgs e)
@@ -88,7 +91,7 @@ namespace ERSaveIDEditor
 
             foreach (var btn in ButtonSlot)
             {
-                btn.Text = LocaleTable.Str_Empty();
+                btn.Text = Locale.Str_Empty;
                 btn.Enabled = false;
             }
 
@@ -122,14 +125,14 @@ namespace ERSaveIDEditor
         {
             if (UInt64.TryParse(tb_NewSteamID.Text, out UInt64 value))
             {
-                if (MessageBox.Show(String.Format(LocaleTable.Msg_Save_New_SteamID64(), value), "",
+                if (MessageBox.Show(String.Format(Locale.Msg_Save_New_SteamID64, value), "",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
                     return;
                 NewSteamID = value;
             }
             else
             {
-                if (MessageBox.Show(String.Format(LocaleTable.Msg_Save_Orig_SteamID64(), OrigSteamID), "",
+                if (MessageBox.Show(String.Format(Locale.Msg_Save_Orig_SteamID64, OrigSteamID), "",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
                     return;
                 NewSteamID = OrigSteamID;
@@ -149,7 +152,7 @@ namespace ERSaveIDEditor
             SaveData.SetSteamID64(NewSteamID);
             SaveData.Save(ofd.FileName);
 
-            MessageBox.Show(LocaleTable.Msg_File_Saved(), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(Locale.Msg_File_Saved, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void UpdateSlot()
@@ -166,7 +169,7 @@ namespace ERSaveIDEditor
                 }
                 else
                 {
-                    btn.Text = LocaleTable.Str_Empty();
+                    btn.Text = Locale.Str_Empty;
                     btn.Enabled = false;
                 }
             }
@@ -180,7 +183,7 @@ namespace ERSaveIDEditor
             {
                 var base64 = SaveData.GetSlotData(index);
                 Clipboard.SetText(base64);
-                MessageBox.Show(string.Format(LocaleTable.Msg_Slot_Copy_To_Clipboard(), index + 1));
+                MessageBox.Show(string.Format(Locale.Msg_Slot_Copy_To_Clipboard, index + 1));
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -188,11 +191,10 @@ namespace ERSaveIDEditor
                 try
                 {
                     var data = Convert.FromBase64String(base64);
-                    if (data.Length == 0x280010)
+                    if (SaveData.SetSlotData(index, base64))
                     {
-                        SaveData.SetSlotData(index, base64);
+                        MessageBox.Show(string.Format(Locale.Msg_Slot_Write_From_Clipboard, index + 1));
                     }
-                    MessageBox.Show(string.Format(LocaleTable.Msg_Slot_Write_From_Clipboard(), index + 1));
                 }
                 catch { }
             }
@@ -200,7 +202,7 @@ namespace ERSaveIDEditor
 
         private void linkLabel_ShowGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Task.Run(() => MessageBox.Show(LocaleTable.Str_Guide(), "", MessageBoxButtons.OK, MessageBoxIcon.Information));
+            Task.Run(() => MessageBox.Show(Locale.Str_Guide, "", MessageBoxButtons.OK, MessageBoxIcon.Information));
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
