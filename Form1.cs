@@ -24,8 +24,8 @@ namespace ERSaveIDEditor
         UInt64 NewSteamID { get; set; }
         List<Button> ButtonSlot { get; set; }
         Locale.ITranslate Locale { get; set; }
-        Locale.ITranslate EN  = new Locale.English();
-        Locale.ITranslate ZH  = new Locale.Chinese();
+        Locale.ITranslate EN = new Locale.English();
+        Locale.ITranslate ZH = new Locale.Chinese();
 
         public Form1()
         {
@@ -49,8 +49,7 @@ namespace ERSaveIDEditor
                 tb_SteamAccount.Text += line;
             }
 
-            Locale = EN;
-            ChangeText(radioBtn_English.Font);
+            radioBtn_English.Checked = true;
         }
 
         private void radioBtn_English_CheckedChanged(object sender, EventArgs e)
@@ -157,7 +156,7 @@ namespace ERSaveIDEditor
 
         private async void UpdateSlot()
         {
-            await Task.Delay(500);
+            await Task.Delay(200);
             foreach (var btn in ButtonSlot)
             {
                 var index = int.Parse(btn.Tag.ToString());
@@ -193,6 +192,7 @@ namespace ERSaveIDEditor
                     var data = Convert.FromBase64String(base64);
                     if (SaveData.SetSlotData(index, base64))
                     {
+                        UpdateSlot();
                         MessageBox.Show(string.Format(Locale.Msg_Slot_Write_From_Clipboard, index + 1));
                     }
                 }

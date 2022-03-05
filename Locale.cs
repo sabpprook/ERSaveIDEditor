@@ -58,7 +58,7 @@ namespace ERSaveIDEditor.Locale
         string ITranslate.Str_Load { get; } = "讀取紀錄";
         string ITranslate.Str_Save { get; } = "儲存紀錄";
         string ITranslate.Str_Save_File { get; } = "遊戲存檔:";
-        string ITranslate.Str_Current_ID { get; } = "目前 ID:";
+        string ITranslate.Str_Current_ID { get; } = "存檔 ID:";
         string ITranslate.Str_New_ID { get; } = "替換 ID:";
         string ITranslate.Str_Show_Guide { get; } = "顯示教學說明";
         string ITranslate.Msg_Save_New_SteamID64 { get; } = "儲存為新的 SteamID64: {0}";
@@ -68,7 +68,7 @@ namespace ERSaveIDEditor.Locale
         string ITranslate.Msg_Slot_Write_From_Clipboard { get; } = "已寫入至紀錄欄位: {0}，請儲存紀錄";
         string ITranslate.Str_Guide { get; } = "存檔路徑: %APPDATA%\\EldenRing\\{SteamID}\\ER0000.sl2\r\n\r\n" +
             "教學 1: 別人存檔轉換成自己存檔\r\n\r\n" +
-            "1. 讀取自己的存檔，複製目前 ID 的內容 (這是你的 SteamID)\r\n" +
+            "1. 讀取自己的存檔，複製存檔 ID 的內容 (這是你的 SteamID)\r\n" +
             "2. 讀取別人的存檔，貼上你的 SteamID 到替換 ID 欄位\r\n" +
             "3. 儲存紀錄至自己的存檔所在的資料夾 (你的 SteamID)\r\n\r\n" +
             "教學 2: 複製別人存檔欄位至自己存檔欄位\r\n\r\n" +
