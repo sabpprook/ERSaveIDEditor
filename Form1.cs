@@ -41,6 +41,8 @@ namespace ERSaveIDEditor
             ButtonSlot.Add(btn_Slot7); ButtonSlot.Add(btn_Slot8);
             ButtonSlot.Add(btn_Slot9); ButtonSlot.Add(btn_Slot10);
 
+            radioBtn_English.Checked = true;
+
             tb_SteamAccount.Text += "SteamID64\t\tAccount\t\tPersonal Name\r\n";
             var list = Steam.GetLoginUsers();
             foreach (var user in list)
@@ -48,8 +50,6 @@ namespace ERSaveIDEditor
                 var line = $"{user.id}\t{user.account_name}\t{user.persona_name}\r\n";
                 tb_SteamAccount.Text += line;
             }
-
-            radioBtn_English.Checked = true;
         }
 
         private void radioBtn_English_CheckedChanged(object sender, EventArgs e)

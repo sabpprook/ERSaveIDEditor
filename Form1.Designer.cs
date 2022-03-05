@@ -303,12 +303,10 @@
             // radioBtn_English
             // 
             this.radioBtn_English.AutoSize = true;
-            this.radioBtn_English.Checked = true;
             this.radioBtn_English.Location = new System.Drawing.Point(394, 370);
             this.radioBtn_English.Name = "radioBtn_English";
             this.radioBtn_English.Size = new System.Drawing.Size(74, 23);
             this.radioBtn_English.TabIndex = 21;
-            this.radioBtn_English.TabStop = true;
             this.radioBtn_English.Text = "English";
             this.radioBtn_English.UseVisualStyleBackColor = true;
             this.radioBtn_English.CheckedChanged += new System.EventHandler(this.radioBtn_English_CheckedChanged);
