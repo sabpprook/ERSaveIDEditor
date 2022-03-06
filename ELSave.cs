@@ -16,6 +16,7 @@ namespace ERSaveIDEditor
         private readonly int SAVEDATA_LENGTH = 0x280010;
         private readonly int FOOTER_OFFSET = 0x019003A0;
         private readonly int FOOTER_LENGTH = 0x60010;
+        private readonly int VERSION_BIT_OFFSET = 0x019003B0;
         private readonly int STEAMID_OFFSET = 0x019003B4;
 
         private readonly int CHAR_DESC_OFFSET = 0x01901D00;
@@ -152,6 +153,8 @@ namespace ERSaveIDEditor
 
         private void ComputeHash()
         {
+            SAVEDATA[VERSION_BIT_OFFSET] = 0x0D;
+
             var data = new byte[FOOTER_LENGTH - CHECKSUM_LENGTH];
             Buffer.BlockCopy(SAVEDATA, (FOOTER_OFFSET + CHECKSUM_LENGTH), data, 0, data.Length);
 

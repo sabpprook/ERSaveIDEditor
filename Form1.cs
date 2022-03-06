@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +6,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -41,7 +39,12 @@ namespace ERSaveIDEditor
             ButtonSlot.Add(btn_Slot7); ButtonSlot.Add(btn_Slot8);
             ButtonSlot.Add(btn_Slot9); ButtonSlot.Add(btn_Slot10);
 
+#if _3DM
+            radioBtn_Chinese.Checked = true;
+            linkLabel1.Text = "sabpprook @ 3DMGAME (ELDEN RING)";
+#else
             radioBtn_English.Checked = true;
+#endif
 
             tb_SteamAccount.Text += "SteamID64\t\tAccount\t\tPersonal Name\r\n";
             var list = Steam.GetLoginUsers();
@@ -207,7 +210,11 @@ namespace ERSaveIDEditor
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+#if _3DM
+            Process.Start("https://bbs.3dmgame.com/thread-6277467-1-1.html");
+#else
             Process.Start("https://github.com/sabpprook/ERSaveIDEditor");
+#endif
         }
     }
 }
