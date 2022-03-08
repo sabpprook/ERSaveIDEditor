@@ -23,7 +23,8 @@ namespace ERSaveIDEditor
         List<Button> ButtonSlot { get; set; }
         Locale.ITranslate Locale { get; set; }
         Locale.ITranslate EN = new Locale.English();
-        Locale.ITranslate ZH = new Locale.Chinese();
+        Locale.ITranslate ZH_TW = new Locale.TChinese();
+        Locale.ITranslate ZH_CN = new Locale.SChinese();
 
         public Form1()
         {
@@ -40,7 +41,7 @@ namespace ERSaveIDEditor
             ButtonSlot.Add(btn_Slot9); ButtonSlot.Add(btn_Slot10);
 
 #if _3DM
-            radioBtn_Chinese.Checked = true;
+            radioBtn_CHS.Checked = true;
             linkLabel1.Text = "sabpprook @ 3DMGAME (ELDEN RING)";
 #else
             radioBtn_English.Checked = true;
@@ -61,10 +62,16 @@ namespace ERSaveIDEditor
             ChangeText(radioBtn_English.Font);
         }
 
-        private void radioBtn_Chinese_CheckedChanged(object sender, EventArgs e)
+        private void radioBtn_CHT_CheckedChanged(object sender, EventArgs e)
         {
-            Locale = ZH;
-            ChangeText(radioBtn_Chinese.Font);
+            Locale = ZH_TW;
+            ChangeText(radioBtn_CHT.Font);
+        }
+
+        private void radioBtn_CHS_CheckedChanged(object sender, EventArgs e)
+        {
+            Locale = ZH_CN;
+            ChangeText(radioBtn_CHS.Font);
         }
 
         private void ChangeText(Font font)

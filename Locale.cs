@@ -53,7 +53,7 @@ namespace ERSaveIDEditor.Locale
             "4.Save the file into your savedata folder. (Your SteamID)\r\n";
     }
 
-    public class Chinese : ITranslate
+    public class TChinese : ITranslate
     {
         string ITranslate.STR_TITLE { get; } = "《艾爾登法環》SteamID 存檔修改器";
         string ITranslate.STR_EMPTY { get; } = "無紀錄";
@@ -79,5 +79,33 @@ namespace ERSaveIDEditor.Locale
             "2. 讀取別人的存檔，右邊欄位按鈕點選滑鼠左鍵複製資料 (Base64 文字格式)\r\n" +
             "3. 讀取自己的存檔，右邊欄位按鈕點選滑鼠右鍵寫入資料\r\n" +
             "4. 儲存紀錄至自己的存檔所在的資料夾 (你的 SteamID)";
+    }
+
+    public class SChinese : ITranslate
+    {
+        string ITranslate.STR_TITLE { get; } = "《艾尔登法环》SteamID 存档修改器";
+        string ITranslate.STR_EMPTY { get; } = "无纪录";
+        string ITranslate.STR_LOAD { get; } = "读取纪录";
+        string ITranslate.STR_SAVE { get; } = "保存纪录";
+        string ITranslate.STR_SAVE_FILE { get; } = "游戏存档:";
+        string ITranslate.STR_CURRENT_ID { get; } = "存档 ID:";
+        string ITranslate.STR_NEW_ID { get; } = "替换 ID:";
+        string ITranslate.STR_SHOW_GUIDE { get; } = "显示教学说明";
+        string ITranslate.MSG_SAVE_NEW_STEAMID64 { get; } = "保存为新的 SteamID64: {0}";
+        string ITranslate.MSG_SAVE_ORIG_STEAMID64 { get; } = "保存为原始 SteamID64: {0}";
+        string ITranslate.MSG_SAVEDATA_DOWNGRADE { get; } = "将存档降级为 1.0.2.1 版本";
+        string ITranslate.MSG_FILE_SAVED { get; } = "档案已保存!";
+        string ITranslate.MSG_SLOT_COPY_TO_CLIPBOARD { get; } = "已拷贝记录栏位: {0} 至剪贴簿 (Base64 文字格式)";
+        string ITranslate.MSG_SLOT_WRITE_FROM_CLIPBOARD { get; } = "已写入至记录栏位: {0}，请保存记录";
+        string ITranslate.STR_GUIDE { get; } = "存档路径: %APPDATA%\\EldenRing\\{SteamID}\\ER0000.sl2\r\n\r\n" +
+            "教学 1: 别人存档转换成自己存档\r\n\r\n" +
+            "1. 读取自己的存档，拷贝存档 ID 的内容 (这是您的 SteamID)\r\n" +
+            "2. 读取别人的存档，黏贴你的 SteamID 到替换 ID 栏位\r\n" +
+            "3. 保存记录至自己的存档所在的文件夹 (您的 SteamID)\r\n\r\n" +
+            "教学 2: 拷贝别人存档栏位至自己存档栏位\r\n\r\n" +
+            "1. 进入游戏，开始新游戏并存档退出游戏\r\n" +
+            "2. 读取别人的存档，右边栏位按钮点击鼠标左键拷贝资料 (Base64 文字格式)\r\n" +
+            "3. 读取自己的存档，右边栏位按钮点击鼠标右键写入资料\r\n" +
+            "4. 保存记录至自己存档所在的文件夹 (您的 SteamID)";
     }
 }

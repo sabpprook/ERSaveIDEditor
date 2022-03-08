@@ -49,8 +49,9 @@
             this.btn_Slot10 = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.radioBtn_English = new System.Windows.Forms.RadioButton();
-            this.radioBtn_Chinese = new System.Windows.Forms.RadioButton();
+            this.radioBtn_CHT = new System.Windows.Forms.RadioButton();
             this.linkLabel_ShowGuide = new System.Windows.Forms.LinkLabel();
+            this.radioBtn_CHS = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label1
@@ -293,7 +294,7 @@
             // radioBtn_English
             // 
             this.radioBtn_English.AutoSize = true;
-            this.radioBtn_English.Location = new System.Drawing.Point(394, 370);
+            this.radioBtn_English.Location = new System.Drawing.Point(361, 370);
             this.radioBtn_English.Name = "radioBtn_English";
             this.radioBtn_English.Size = new System.Drawing.Size(74, 23);
             this.radioBtn_English.TabIndex = 21;
@@ -301,17 +302,17 @@
             this.radioBtn_English.UseVisualStyleBackColor = true;
             this.radioBtn_English.CheckedChanged += new System.EventHandler(this.radioBtn_English_CheckedChanged);
             // 
-            // radioBtn_Chinese
+            // radioBtn_CHT
             // 
-            this.radioBtn_Chinese.AutoSize = true;
-            this.radioBtn_Chinese.Font = new System.Drawing.Font("Microsoft JhengHei UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioBtn_Chinese.Location = new System.Drawing.Point(474, 370);
-            this.radioBtn_Chinese.Name = "radioBtn_Chinese";
-            this.radioBtn_Chinese.Size = new System.Drawing.Size(87, 23);
-            this.radioBtn_Chinese.TabIndex = 22;
-            this.radioBtn_Chinese.Text = "繁體中文";
-            this.radioBtn_Chinese.UseVisualStyleBackColor = true;
-            this.radioBtn_Chinese.CheckedChanged += new System.EventHandler(this.radioBtn_Chinese_CheckedChanged);
+            this.radioBtn_CHT.AutoSize = true;
+            this.radioBtn_CHT.Font = new System.Drawing.Font("Microsoft JhengHei UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioBtn_CHT.Location = new System.Drawing.Point(441, 370);
+            this.radioBtn_CHT.Name = "radioBtn_CHT";
+            this.radioBtn_CHT.Size = new System.Drawing.Size(57, 23);
+            this.radioBtn_CHT.TabIndex = 22;
+            this.radioBtn_CHT.Text = "繁體";
+            this.radioBtn_CHT.UseVisualStyleBackColor = true;
+            this.radioBtn_CHT.CheckedChanged += new System.EventHandler(this.radioBtn_CHT_CheckedChanged);
             // 
             // linkLabel_ShowGuide
             // 
@@ -326,13 +327,26 @@
             this.linkLabel_ShowGuide.Text = "Show Guide";
             this.linkLabel_ShowGuide.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_ShowGuide_LinkClicked);
             // 
+            // radioBtn_CHS
+            // 
+            this.radioBtn_CHS.AutoSize = true;
+            this.radioBtn_CHS.Font = new System.Drawing.Font("Microsoft JhengHei UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioBtn_CHS.Location = new System.Drawing.Point(504, 370);
+            this.radioBtn_CHS.Name = "radioBtn_CHS";
+            this.radioBtn_CHS.Size = new System.Drawing.Size(57, 23);
+            this.radioBtn_CHS.TabIndex = 24;
+            this.radioBtn_CHS.Text = "简体";
+            this.radioBtn_CHS.UseVisualStyleBackColor = true;
+            this.radioBtn_CHS.CheckedChanged += new System.EventHandler(this.radioBtn_CHS_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 401);
+            this.Controls.Add(this.radioBtn_CHS);
             this.Controls.Add(this.linkLabel_ShowGuide);
-            this.Controls.Add(this.radioBtn_Chinese);
+            this.Controls.Add(this.radioBtn_CHT);
             this.Controls.Add(this.radioBtn_English);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.btn_Slot10);
@@ -391,8 +405,9 @@
         private System.Windows.Forms.Button btn_Slot10;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.RadioButton radioBtn_English;
-        private System.Windows.Forms.RadioButton radioBtn_Chinese;
+        private System.Windows.Forms.RadioButton radioBtn_CHT;
         private System.Windows.Forms.LinkLabel linkLabel_ShowGuide;
+        private System.Windows.Forms.RadioButton radioBtn_CHS;
     }
 }
 
