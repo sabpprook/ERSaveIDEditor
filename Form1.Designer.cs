@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -48,7 +47,6 @@
             this.btn_Slot8 = new System.Windows.Forms.Button();
             this.btn_Slot9 = new System.Windows.Forms.Button();
             this.btn_Slot10 = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.radioBtn_English = new System.Windows.Forms.RadioButton();
             this.radioBtn_Chinese = new System.Windows.Forms.RadioButton();
@@ -279,14 +277,6 @@
             this.btn_Slot10.UseVisualStyleBackColor = true;
             this.btn_Slot10.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btn_Slot_MouseUp);
             // 
-            // toolTip1
-            // 
-            this.toolTip1.AutomaticDelay = 200;
-            this.toolTip1.AutoPopDelay = 5000;
-            this.toolTip1.InitialDelay = 200;
-            this.toolTip1.IsBalloon = true;
-            this.toolTip1.ReshowDelay = 40;
-            // 
             // linkLabel1
             // 
             this.linkLabel1.ActiveLinkColor = System.Drawing.Color.DeepSkyBlue;
@@ -399,7 +389,6 @@
         private System.Windows.Forms.Button btn_Slot8;
         private System.Windows.Forms.Button btn_Slot9;
         private System.Windows.Forms.Button btn_Slot10;
-        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.RadioButton radioBtn_English;
         private System.Windows.Forms.RadioButton radioBtn_Chinese;

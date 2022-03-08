@@ -69,19 +69,19 @@ namespace ERSaveIDEditor
 
         private void ChangeText(Font font)
         {
-            this.Text = Locale.Str_Title;
-            label1.Text = Locale.Str_Save_File;
-            label2.Text = Locale.Str_Current_ID;
-            label3.Text = Locale.Str_New_ID;
-            btn_LoadFile.Text = Locale.Str_Load;
-            btn_SaveFile.Text = Locale.Str_Save;
-            linkLabel_ShowGuide.Text = Locale.Str_Show_Guide;
+            this.Text = Locale.STR_TITLE;
+            label1.Text = Locale.STR_SAVE_FILE;
+            label2.Text = Locale.STR_CURRENT_ID;
+            label3.Text = Locale.STR_NEW_ID;
+            btn_LoadFile.Text = Locale.STR_LOAD;
+            btn_SaveFile.Text = Locale.STR_SAVE;
+            linkLabel_ShowGuide.Text = Locale.STR_SHOW_GUIDE;
             label1.Font = label2.Font = label3.Font = linkLabel_ShowGuide.Font = font;
             btn_LoadFile.Font = btn_SaveFile.Font = font;
             foreach (var btn in ButtonSlot)
             {
                 var index = int.Parse(btn.Tag.ToString());
-                if (!btn.Enabled) btn.Text = Locale.Str_Empty;
+                if (!btn.Enabled) btn.Text = Locale.STR_EMPTY;
             }
             GC.Collect();
         }
@@ -93,7 +93,7 @@ namespace ERSaveIDEditor
 
             foreach (var btn in ButtonSlot)
             {
-                btn.Text = Locale.Str_Empty;
+                btn.Text = Locale.STR_EMPTY;
                 btn.Enabled = false;
             }
 
@@ -127,22 +127,26 @@ namespace ERSaveIDEditor
         {
             if (UInt64.TryParse(tb_NewSteamID.Text, out UInt64 value))
             {
-                if (MessageBox.Show(String.Format(Locale.Msg_Save_New_SteamID64, value), "",
+                if (MessageBox.Show(String.Format(Locale.MSG_SAVE_NEW_STEAMID64, value), "",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
                     return;
                 NewSteamID = value;
             }
             else
             {
-                if (MessageBox.Show(String.Format(Locale.Msg_Save_Orig_SteamID64, OrigSteamID), "",
+                if (MessageBox.Show(String.Format(Locale.MSG_SAVE_ORIG_STEAMID64, OrigSteamID), "",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
                     return;
                 NewSteamID = OrigSteamID;
             }
 
+            var InitDir = Environment.ExpandEnvironmentVariables($"%APPDATA%\\EldenRing\\{NewSteamID}");
+            if (!Directory.Exists(InitDir))
+                Directory.CreateDirectory(InitDir);
+
             var ofd = new OpenFileDialog()
             {
-                InitialDirectory = Environment.ExpandEnvironmentVariables("%APPDATA%\\EldenRing"),
+                InitialDirectory = InitDir,
                 FileName = "ER0000.sl2",
                 Filter = "Elden Ring savedata (*.sl2)|*.sl2",
                 CheckFileExists = false
@@ -151,10 +155,13 @@ namespace ERSaveIDEditor
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
+            var downgrade = MessageBox.Show(Locale.MSG_SAVEDATA_DOWNGRADE, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+            SaveData.isDowngrade = downgrade;
+
             SaveData.SetSteamID64(NewSteamID);
             SaveData.Save(ofd.FileName);
 
-            MessageBox.Show(Locale.Msg_File_Saved, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(Locale.MSG_FILE_SAVED, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void UpdateSlot()
@@ -171,7 +178,7 @@ namespace ERSaveIDEditor
                 }
                 else
                 {
-                    btn.Text = Locale.Str_Empty;
+                    btn.Text = Locale.STR_EMPTY;
                     btn.Enabled = false;
                 }
             }
@@ -185,7 +192,7 @@ namespace ERSaveIDEditor
             {
                 var base64 = SaveData.GetSlotData(index);
                 Clipboard.SetText(base64);
-                MessageBox.Show(string.Format(Locale.Msg_Slot_Copy_To_Clipboard, index + 1));
+                MessageBox.Show(string.Format(Locale.MSG_SLOT_COPY_TO_CLIPBOARD, index + 1));
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -196,7 +203,7 @@ namespace ERSaveIDEditor
                     if (SaveData.SetSlotData(index, base64))
                     {
                         UpdateSlot();
-                        MessageBox.Show(string.Format(Locale.Msg_Slot_Write_From_Clipboard, index + 1));
+                        MessageBox.Show(string.Format(Locale.MSG_SLOT_WRITE_FROM_CLIPBOARD, index + 1));
                     }
                 }
                 catch { }
@@ -205,7 +212,7 @@ namespace ERSaveIDEditor
 
         private void linkLabel_ShowGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Task.Run(() => MessageBox.Show(Locale.Str_Guide, "", MessageBoxButtons.OK, MessageBoxIcon.Information));
+            Task.Run(() => MessageBox.Show(Locale.STR_GUIDE, "", MessageBoxButtons.OK, MessageBoxIcon.Information));
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

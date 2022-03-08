@@ -28,6 +28,7 @@ namespace ERSaveIDEditor
 
         private readonly ulong STEAMID_TAMPERED = 88888888888888888;
 
+        public bool isDowngrade { get; set; }
         private byte[] SAVEDATA { get; set; }
 
         public ELSave(string file)
@@ -153,7 +154,8 @@ namespace ERSaveIDEditor
 
         private void ComputeHash()
         {
-            SAVEDATA[VERSION_BIT_OFFSET] = 0x0D;
+            if (isDowngrade)
+                SAVEDATA[VERSION_BIT_OFFSET] = 0x0D;
 
             var data = new byte[FOOTER_LENGTH - CHECKSUM_LENGTH];
             Buffer.BlockCopy(SAVEDATA, (FOOTER_OFFSET + CHECKSUM_LENGTH), data, 0, data.Length);
