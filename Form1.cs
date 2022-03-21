@@ -132,7 +132,15 @@ namespace ERSaveIDEditor
 
         private void btn_SaveFile_Click(object sender, EventArgs e)
         {
-            if (UInt64.TryParse(tb_NewSteamID.Text, out UInt64 value))
+            var newSteamID = false;
+            tb_NewSteamID.Text = Regex.Replace(tb_NewSteamID.Text, "[^0-9]", "");
+
+            newSteamID = UInt64.TryParse(tb_NewSteamID.Text, out UInt64 value);
+
+            if (newSteamID)
+                newSteamID = !tb_CurrentSteamID.Text.Equals(value.ToString());
+
+            if (newSteamID)
             {
                 if (MessageBox.Show(String.Format(Locale.MSG_SAVE_NEW_STEAMID64, value), "",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
@@ -141,9 +149,6 @@ namespace ERSaveIDEditor
             }
             else
             {
-                if (MessageBox.Show(String.Format(Locale.MSG_SAVE_ORIG_STEAMID64, OrigSteamID), "",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
-                    return;
                 NewSteamID = OrigSteamID;
             }
 
@@ -162,8 +167,8 @@ namespace ERSaveIDEditor
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            var downgrade = MessageBox.Show(Locale.MSG_SAVEDATA_DOWNGRADE, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-            SaveData.isDowngrade = downgrade;
+            SaveData.isDowngrade = (MessageBox.Show(Locale.MSG_SAVEDATA_DOWNGRADE, "", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes);
 
             SaveData.SetSteamID64(NewSteamID);
             SaveData.Save(ofd.FileName);
